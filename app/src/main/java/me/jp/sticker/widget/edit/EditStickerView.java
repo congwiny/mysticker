@@ -1,4 +1,4 @@
-package me.jp.sticker.widget.image;
+package me.jp.sticker.widget.edit;
 
 import android.content.Context;
 import android.util.AttributeSet;

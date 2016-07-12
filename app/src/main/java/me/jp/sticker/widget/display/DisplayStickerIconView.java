@@ -1,4 +1,4 @@
-package me.jp.sticker.widget.text;
+package me.jp.sticker.widget.display;
 
 import android.content.Context;
 import android.graphics.Bitmap;

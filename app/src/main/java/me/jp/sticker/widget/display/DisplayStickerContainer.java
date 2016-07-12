@@ -1,4 +1,4 @@
-package me.jp.sticker.widget.text;
+package me.jp.sticker.widget.display;
 
 /**
  * Created by congwiny on 2016/7/12.

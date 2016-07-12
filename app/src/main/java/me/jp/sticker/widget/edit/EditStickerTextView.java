@@ -1,4 +1,4 @@
-package me.jp.sticker.widget.image;
+package me.jp.sticker.widget.edit;
 
 import android.annotation.TargetApi;
 import android.content.Context;

@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <me.jp.sticker.widget.image.EditStickerTextView
+        <me.jp.sticker.widget.edit.EditStickerTextView
             android:id="@+id/sticker_textView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

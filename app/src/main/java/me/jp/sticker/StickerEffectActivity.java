@@ -10,8 +10,8 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import me.jp.sticker.model.StickerModel;
-import me.jp.sticker.widget.text.DisplayStickerIconView;
-import me.jp.sticker.widget.image.EditStickerTextView;
+import me.jp.sticker.widget.display.DisplayStickerIconView;
+import me.jp.sticker.widget.edit.EditStickerTextView;
 
 public class StickerEffectActivity extends AppCompatActivity {
 

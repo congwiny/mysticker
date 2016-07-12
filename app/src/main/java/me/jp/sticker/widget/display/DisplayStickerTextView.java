@@ -1,4 +1,4 @@
-package me.jp.sticker.widget.text;
+package me.jp.sticker.widget.display;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import me.jp.sticker.R;
 import me.jp.sticker.model.StickerModel;
 import me.jp.sticker.util.DisplayUtil;
 import me.jp.sticker.util.NinePatchChunk;

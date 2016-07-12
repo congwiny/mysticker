@@ -11,7 +11,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
 import me.jp.sticker.model.StickerModel;
-import me.jp.sticker.widget.text.DisplayStickerTextView;
+import me.jp.sticker.widget.display.DisplayStickerTextView;
 
 public class StickerTextActivity extends AppCompatActivity {
 

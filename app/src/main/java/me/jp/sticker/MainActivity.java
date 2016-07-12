@@ -29,7 +29,7 @@ import java.util.List;
 
 import me.jp.sticker.adapter.GalleryAdapter;
 import me.jp.sticker.model.StickerModel;
-import me.jp.sticker.widget.image.EditIconStickerView;
+import me.jp.sticker.widget.edit.EditIconStickerView;
 
 
 public class MainActivity extends AppCompatActivity {
