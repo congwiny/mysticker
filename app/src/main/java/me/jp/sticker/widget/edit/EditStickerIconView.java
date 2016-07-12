@@ -24,11 +24,11 @@ import me.jp.sticker.util.DisplayUtil;
 
 
 /**
- * Created by sam on 14-8-14.
+ * Created by congwiny on 2016/7/11.
  */
-public class EditIconStickerView extends View {
+public class EditStickerIconView extends View {
 
-    private static final String TAG = EditIconStickerView.class.getSimpleName();
+    private static final String TAG = EditStickerIconView.class.getSimpleName();
 
     public static final float MAX_SCALE_SIZE = 3.2f;
     public static final float MIN_SCALE_SIZE = 0.6f;
@@ -56,15 +56,15 @@ public class EditIconStickerView extends View {
 
     private OnStickerDeleteListener mOnStickerDeleteListener;
 
-    public EditIconStickerView(Context context) {
+    public EditStickerIconView(Context context) {
         this(context, null);
     }
 
-    public EditIconStickerView(Context context, AttributeSet attrs) {
+    public EditStickerIconView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public EditIconStickerView(Context context, AttributeSet attrs, int defStyle) {
+    public EditStickerIconView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
@@ -382,7 +382,7 @@ public class EditIconStickerView extends View {
     }
 
     public interface OnStickerDeleteListener {
-        public void onDelete(EditIconStickerView stickerEditView);
+        public void onDelete(EditStickerIconView stickerEditView);
     }
 
     public void setOnStickerDeleteListener(OnStickerDeleteListener listener) {

@@ -29,7 +29,7 @@ import java.util.List;
 
 import me.jp.sticker.adapter.GalleryAdapter;
 import me.jp.sticker.model.StickerModel;
-import me.jp.sticker.widget.edit.EditIconStickerView;
+import me.jp.sticker.widget.edit.EditStickerIconView;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     int mStatusBarHeight;
     int mToolBarHeight;
 
-    List<EditIconStickerView> mStickers = new ArrayList<>();
+    List<EditStickerIconView> mStickers = new ArrayList<>();
     int[] mResIds = new int[]{R.mipmap.ic_sticker_01, R.mipmap.ic_sticker_02, R.mipmap.ic_sticker_03, R.mipmap.ic_sticker_04, R.mipmap.ic_sticker_05, R.mipmap.ic_sticker_06, R.mipmap.ic_sticker_07, R.mipmap.ic_sticker_08};
 
 
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void addStickerItem(int resId) {
         resetStickersFocus();
-        EditIconStickerView stickerEditView = new EditIconStickerView(this);
+        EditStickerIconView stickerEditView = new EditStickerIconView(this);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
@@ -81,9 +81,9 @@ public class MainActivity extends AppCompatActivity {
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resId);
         stickerEditView.setWaterMark(bitmap);
         mStickers.add(stickerEditView);
-        stickerEditView.setOnStickerDeleteListener(new EditIconStickerView.OnStickerDeleteListener() {
+        stickerEditView.setOnStickerDeleteListener(new EditStickerIconView.OnStickerDeleteListener() {
             @Override
-            public void onDelete(EditIconStickerView stickerEditView) {
+            public void onDelete(EditStickerIconView stickerEditView) {
                 if (mStickers.contains(stickerEditView))
                     mStickers.remove(stickerEditView);
             }
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void resetStickersFocus() {
-        for (EditIconStickerView stickerEditView : mStickers) {
+        for (EditStickerIconView stickerEditView : mStickers) {
             stickerEditView.setFocusable(false);
         }
     }
@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
         canvas.drawBitmap(bmBg, 0, 0, null);
 
         //draw stickers on canvas
-        for (EditIconStickerView stickerEditView : mStickers) {
+        for (EditStickerIconView stickerEditView : mStickers) {
             Bitmap bmSticker = stickerEditView.getBitmap();
             canvas.drawBitmap(bmSticker, 0, 0, null);
         }
@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
             int x = (int) ev.getX();
             //calculate action point Y apart from Container layout origin
             int y = (int) ev.getY() - mStatusBarHeight - mToolBarHeight;
-            for (EditIconStickerView stickerEditView : mStickers) {
+            for (EditStickerIconView stickerEditView : mStickers) {
                 // dispatch focus to the sticker based on Coordinate
                 boolean isContains = stickerEditView.getContentRect().contains(x, y);
                 if (isContains) {
