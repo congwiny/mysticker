@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="me.jp.sticker.StickerEffectActivity"
+    tools:showIn="@layout/activity_sticker_effect">
+
+    <RelativeLayout
+        android:id="@+id/sticker_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <me.jp.sticker.widget.image.EditStickerTextView
+            android:id="@+id/sticker_textView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/black"/>
+
+        <Button
+            android:id="@+id/startNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="start next"/>
+    </RelativeLayout>
+
+</RelativeLayout>
