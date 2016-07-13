@@ -31,8 +31,9 @@ public class StickerEffectActivity extends AppCompatActivity {
     private void initView() {
         mStickerContainer = (RelativeLayout) findViewById(R.id.sticker_container);
         mStickerTextView = (EditStickerTextView) findViewById(R.id.sticker_textView);
-
-        mStickerTextView.setTextSticker();
+        StickerModel model = new StickerModel();
+        model.setStickerText("hello");
+        mStickerTextView.editSticker(model);
 
         mStartNextBtn = (Button) findViewById(R.id.startNext);
         mStartNextBtn.setOnClickListener(new View.OnClickListener() {

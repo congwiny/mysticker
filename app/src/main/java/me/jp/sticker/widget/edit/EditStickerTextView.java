@@ -17,8 +17,10 @@ import android.graphics.drawable.NinePatchDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.FloatMath;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.TextView;
 
 import me.jp.sticker.R;
@@ -55,6 +57,7 @@ public class EditStickerTextView extends EditStickerView {
     private int mScreenHeight;
 
     private float mLastPointX, mLastPointY;
+    private float mInitPointX, mInitPointY;
 
     private boolean mInController, mInMove;
 
@@ -71,9 +74,13 @@ public class EditStickerTextView extends EditStickerView {
     public static final float MAX_SCALE_SIZE = 3.2f;
     public static final float MIN_SCALE_SIZE = 0.6f;
 
+    private float mTouchSlop;
+
     private Paint mContentPaint;
 
     private OnStickerDeleteListener mOnStickerDeleteListener;
+
+    private OnEditStickerTextClickListener mOnEditStickerTextClickListener;
 
     public EditStickerTextView(Context context) {
         this(context, null);
@@ -103,8 +110,7 @@ public class EditStickerTextView extends EditStickerView {
     @Override
     public void editSticker(StickerModel stickerModel) {
         mInEdit = true;
-        setFocusable(true);
-        invalidate();
+        setTextSticker(stickerModel, false);
     }
 
     @Override
@@ -112,8 +118,15 @@ public class EditStickerTextView extends EditStickerView {
         mOnStickerDeleteListener = listener;
     }
 
+    public void setOnEditStickerTextClickListener(OnEditStickerTextClickListener listener) {
+        mOnEditStickerTextClickListener = listener;
+    }
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void init() {
+        mStickerScaleSize = 1.0f;
+        mMatrix = new Matrix();
+        mContentRect = new RectF();
 
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
@@ -139,19 +152,16 @@ public class EditStickerTextView extends EditStickerView {
 
         mScreenWidth = DisplayUtil.getDisplayWidthPixels(getContext());
         mScreenHeight = DisplayUtil.getDisplayheightPixels(getContext());
+        mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
     }
 
 
-    public void setTextSticker() {
+    public void setTextSticker(StickerModel stickerModel, boolean isInitial) {
 
-        mStickerScaleSize = 1.0f;
         setFocusable(true);
-
-        mMatrix = new Matrix();
-        mContentRect = new RectF();
         mTextView = new TextView(getContext());
 
-        mTextView.setText("abcdefgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        mTextView.setText(stickerModel.getStickerText());
         mTextView.setTextSize(16);
         mTextView.setMaxWidth((int) (mScreenWidth * 0.8 + 0.5));
 
@@ -186,13 +196,16 @@ public class EditStickerTextView extends EditStickerView {
                 -STICKER_GAP, py - STICKER_GAP,
                 width / 2, height / 2};
 
-        float transtLeft = ((float) mScreenWidth - width) / 2;
-        float transtTop = ((float) mScreenHeight - height) / 2;
-        //图片通过矩阵进行坐标平移
-        mMatrix.postTranslate(transtLeft, transtTop);
+        if (isInitial) {
+            float transtLeft = ((float) mScreenWidth - width) / 2;
+            float transtTop = ((float) mScreenHeight - height) / 2;
+            //图片通过矩阵进行坐标平移
+            mMatrix.postTranslate(transtLeft, transtTop);
+        }
 
-        invalidate();
+        postInvalidate();
     }
+
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
@@ -206,6 +219,8 @@ public class EditStickerTextView extends EditStickerView {
         float y = event.getY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                mInitPointX = x;
+                mInitPointY = y;
                 if (isInController(x, y)) {
                     mInController = true;
                     mLastPointY = y;
@@ -229,6 +244,15 @@ public class EditStickerTextView extends EditStickerView {
                 if (isInDelete(x, y) && mInDelete) {
                     doDeleteSticker();
                 }
+                PointF pointF = new PointF(x, y);
+                //执行点击事件
+                if (isPointInMatrix(pointF, mPoints)) {
+                    if (caculateLength(x, y, mInitPointX, mInitPointY) <= mTouchSlop) {
+                        if (mOnEditStickerTextClickListener != null) {
+                            mOnEditStickerTextClickListener.onEditStickerTextClick(this);
+                        }
+                    }
+                }
             case MotionEvent.ACTION_CANCEL:
                 mLastPointX = 0;
                 mLastPointY = 0;
@@ -240,8 +264,8 @@ public class EditStickerTextView extends EditStickerView {
                 if (mInController) {
 
                     mMatrix.postRotate(rotation(event), mOuterPoints[8], mOuterPoints[9]);
-                    float nowLenght = caculateLength(mOuterPoints[0], mOuterPoints[1]);
-                    float touchLenght = caculateLength(event.getX(), event.getY());
+                    float nowLenght = caculateLength(mOuterPoints[0], mOuterPoints[1], mOuterPoints[8], mOuterPoints[9]);
+                    float touchLenght = caculateLength(event.getX(), event.getY(), mOuterPoints[8], mOuterPoints[9]);
 
                     if (FloatMath.sqrt((nowLenght - touchLenght) * (nowLenght - touchLenght)) > 0.0f) {
 
@@ -376,9 +400,9 @@ public class EditStickerTextView extends EditStickerView {
         return getCross(p1, p2, p) * getCross(p3, p4, p) >= 0 && getCross(p2, p3, p) * getCross(p4, p1, p) >= 0;
     }
 
-    private float caculateLength(float x, float y) {
-        float ex = x - mOuterPoints[8];
-        float ey = y - mOuterPoints[9];
+    private float caculateLength(float x1, float y1, float x2, float y2) {
+        float ex = x1 - x2;
+        float ey = y1 - y2;
         return FloatMath.sqrt(ex * ex + ey * ey);
     }
 
@@ -511,5 +535,9 @@ public class EditStickerTextView extends EditStickerView {
         //}
         return false;
 
+    }
+
+    public interface OnEditStickerTextClickListener {
+        void onEditStickerTextClick(EditStickerTextView editStickerTextView);
     }
 }
