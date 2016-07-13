@@ -26,13 +26,12 @@ import me.jp.sticker.util.DisplayUtil;
 /**
  * Created by congwiny on 2016/7/11.
  */
-public class EditStickerIconView extends View {
+public class EditStickerIconView extends EditStickerView {
 
     private static final String TAG = EditStickerIconView.class.getSimpleName();
 
     public static final float MAX_SCALE_SIZE = 3.2f;
     public static final float MIN_SCALE_SIZE = 0.6f;
-
 
     private float[] mOriginPoints;
     private float[] mPoints;
@@ -54,6 +53,8 @@ public class EditStickerIconView extends View {
     //private boolean mCanTouch;
     private float mStickerScaleSize = 1.0f;
 
+    private boolean mInEdit = true;
+
     private OnStickerDeleteListener mOnStickerDeleteListener;
 
     public EditStickerIconView(Context context) {
@@ -67,6 +68,25 @@ public class EditStickerIconView extends View {
     public EditStickerIconView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
+    }
+
+    @Override
+    public int getStickerEditType() {
+        return EDIT_TYPE_ICON;
+    }
+
+    @Override
+    public void applySticker() {
+        mInEdit = false;
+        setFocusable(false);
+        invalidate();
+    }
+
+    @Override
+    public void editSticker(StickerModel stickerModel) {
+        mInEdit = true;
+        setFocusable(true);
+        invalidate();
     }
 
     private void init() {
@@ -320,6 +340,7 @@ public class EditStickerIconView extends View {
         return true;
     }
 
+
     private float getCross(PointF p1, PointF p2, PointF p) {
         return (p2.x - p1.x) * (p.y - p1.y) - (p.x - p1.x) * (p2.y - p1.y);
     }
@@ -381,10 +402,7 @@ public class EditStickerIconView extends View {
         return mContentRect;
     }
 
-    public interface OnStickerDeleteListener {
-        public void onDelete(EditStickerIconView stickerEditView);
-    }
-
+    @Override
     public void setOnStickerDeleteListener(OnStickerDeleteListener listener) {
         mOnStickerDeleteListener = listener;
     }

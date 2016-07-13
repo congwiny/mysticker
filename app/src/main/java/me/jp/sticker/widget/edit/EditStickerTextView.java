@@ -66,10 +66,14 @@ public class EditStickerTextView extends EditStickerView {
 
     private boolean mInDelete = false;
 
+    private boolean mInEdit = true;
+
     public static final float MAX_SCALE_SIZE = 3.2f;
     public static final float MIN_SCALE_SIZE = 0.6f;
 
     private Paint mContentPaint;
+
+    private OnStickerDeleteListener mOnStickerDeleteListener;
 
     public EditStickerTextView(Context context) {
         this(context, null);
@@ -82,6 +86,30 @@ public class EditStickerTextView extends EditStickerView {
     public EditStickerTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
+    }
+
+    @Override
+    public int getStickerEditType() {
+        return EDIT_TYPE_TEXT;
+    }
+
+    @Override
+    public void applySticker() {
+        mInEdit = false;
+        setFocusable(false);
+        invalidate();
+    }
+
+    @Override
+    public void editSticker(StickerModel stickerModel) {
+        mInEdit = true;
+        setFocusable(true);
+        invalidate();
+    }
+
+    @Override
+    public void setOnStickerDeleteListener(OnStickerDeleteListener listener) {
+        mOnStickerDeleteListener = listener;
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -330,10 +358,11 @@ public class EditStickerTextView extends EditStickerView {
 
     private void doDeleteSticker() {
         setVisibility(View.GONE);
-       /* if (mOnStickerDeleteListener != null) {
+        if (mOnStickerDeleteListener != null) {
             mOnStickerDeleteListener.onDelete(this);
-        }*/
+        }
     }
+
 
     private float getCross(PointF p1, PointF p2, PointF p) {
         return (p2.x - p1.x) * (p.y - p1.y) - (p.x - p1.x) * (p2.y - p1.y);
@@ -406,35 +435,37 @@ public class EditStickerTextView extends EditStickerView {
         mTextView.draw(canvas);
         canvas.restoreToCount(count);
 
-        canvas.drawLine(mOuterPoints[0], mOuterPoints[1],
-                mOuterPoints[2], mOuterPoints[3],
-                mBorderPaint);
+        if (mInEdit) {
+            canvas.drawLine(mOuterPoints[0], mOuterPoints[1],
+                    mOuterPoints[2], mOuterPoints[3],
+                    mBorderPaint);
 
-        canvas.drawLine(mOuterPoints[0], mOuterPoints[1],
-                mOuterPoints[2], mOuterPoints[3],
-                mBorderPaint);
+            canvas.drawLine(mOuterPoints[0], mOuterPoints[1],
+                    mOuterPoints[2], mOuterPoints[3],
+                    mBorderPaint);
 
-        canvas.drawLine(mOuterPoints[2], mOuterPoints[3],
-                mOuterPoints[4], mOuterPoints[5],
-                mBorderPaint);
+            canvas.drawLine(mOuterPoints[2], mOuterPoints[3],
+                    mOuterPoints[4], mOuterPoints[5],
+                    mBorderPaint);
 
-        canvas.drawLine(mOuterPoints[4], mOuterPoints[5],
-                mOuterPoints[6], mOuterPoints[7],
-                mBorderPaint);
+            canvas.drawLine(mOuterPoints[4], mOuterPoints[5],
+                    mOuterPoints[6], mOuterPoints[7],
+                    mBorderPaint);
 
-        canvas.drawLine(mOuterPoints[6], mOuterPoints[7],
-                mOuterPoints[0], mOuterPoints[1],
-                mBorderPaint);
+            canvas.drawLine(mOuterPoints[6], mOuterPoints[7],
+                    mOuterPoints[0], mOuterPoints[1],
+                    mBorderPaint);
 
-        canvas.drawBitmap(mDeleteBitmap,
-                mOuterPoints[0] - mControllerWidth / 2,
-                mOuterPoints[1] - mControllerHeight / 2,
-                mBorderPaint);
+            canvas.drawBitmap(mDeleteBitmap,
+                    mOuterPoints[0] - mControllerWidth / 2,
+                    mOuterPoints[1] - mControllerHeight / 2,
+                    mBorderPaint);
 
-        canvas.drawBitmap(mControllerBitmap,
-                mOuterPoints[4] - mControllerWidth / 2,
-                mOuterPoints[5] - mControllerHeight / 2,
-                mBorderPaint);
+            canvas.drawBitmap(mControllerBitmap,
+                    mOuterPoints[4] - mControllerWidth / 2,
+                    mOuterPoints[5] - mControllerHeight / 2,
+                    mBorderPaint);
+        }
     }
 
     private int getStatusBarHeight() {

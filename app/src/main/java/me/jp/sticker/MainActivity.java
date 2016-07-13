@@ -30,6 +30,7 @@ import java.util.List;
 import me.jp.sticker.adapter.GalleryAdapter;
 import me.jp.sticker.model.StickerModel;
 import me.jp.sticker.widget.edit.EditStickerIconView;
+import me.jp.sticker.widget.edit.EditStickerView;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -81,9 +82,9 @@ public class MainActivity extends AppCompatActivity {
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resId);
         stickerEditView.setWaterMark(bitmap);
         mStickers.add(stickerEditView);
-        stickerEditView.setOnStickerDeleteListener(new EditStickerIconView.OnStickerDeleteListener() {
+        stickerEditView.setOnStickerDeleteListener(new EditStickerView.OnStickerDeleteListener() {
             @Override
-            public void onDelete(EditStickerIconView stickerEditView) {
+            public void onDelete(EditStickerView stickerEditView) {
                 if (mStickers.contains(stickerEditView))
                     mStickers.remove(stickerEditView);
             }

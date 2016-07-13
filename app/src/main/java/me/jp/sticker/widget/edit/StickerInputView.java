@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 
 import butterknife.ButterKnife;
 import me.jp.sticker.R;
@@ -32,8 +33,6 @@ public class StickerInputView extends LinearLayout {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.layout_sticker_input, this, true);
         ButterKnife.bind(this);
     }
 

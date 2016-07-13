@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_sticker_list"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:id="@+id/rl_edit_sticker"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="#cc000000"/>
+        android:layout_weight="1">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_sticker_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:background="#cc000000"/>
+        <View
+            android:id="@+id/view_blank_click"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/ll_sticker_toolbar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="#000000">
@@ -70,7 +85,6 @@
     </LinearLayout>
 
     <include
-        android:id="@+id/layout_sticker_input"
         layout="@layout/layout_sticker_input"
         android:visibility="gone"/>
 </LinearLayout>
