@@ -17,7 +17,6 @@ import android.graphics.drawable.NinePatchDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.FloatMath;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -31,7 +30,7 @@ import me.jp.sticker.util.NinePatchChunk;
 /**
  * Created by congwiny on 2016/7/11.
  */
-public class EditStickerTextView extends EditStickerView {
+public class EditStickerTextView extends EditStickerView implements StickerInputView.OnStickerTextBGChangedListener {
 
     private static final String TAG = EditStickerTextView.class.getSimpleName();
 
@@ -71,12 +70,24 @@ public class EditStickerTextView extends EditStickerView {
 
     private boolean mInEdit = true;
 
-    public static final float MAX_SCALE_SIZE = 3.2f;
-    public static final float MIN_SCALE_SIZE = 0.6f;
+    public static final float MAX_SCALE_SIZE = 2.0f;
+    public static final float MIN_SCALE_SIZE = 0.5f;
 
     private float mTouchSlop;
 
     private Paint mContentPaint;
+
+    private int[] STICKER_TEXT_BG = new int[]{
+            R.drawable.txt_bg_black,
+            R.drawable.txt_bg_red,
+            R.drawable.txt_bg_yellow,
+            R.drawable.txt_bg_green,
+            R.drawable.txt_bg_blue,
+            R.drawable.txt_bg_pink
+    };
+
+    private int mStickerTextBGIndex;
+    private String mStickerText;
 
     private OnStickerDeleteListener mOnStickerDeleteListener;
 
@@ -104,13 +115,15 @@ public class EditStickerTextView extends EditStickerView {
     public void applySticker() {
         mInEdit = false;
         setFocusable(false);
+        setBackgroundColor(getResources().getColor(R.color.sticker_mask_transparent));
         invalidate();
     }
 
     @Override
-    public void editSticker(StickerModel stickerModel) {
+    public void editSticker(StickerModel stickerModel, boolean isInitial) {
         mInEdit = true;
-        setTextSticker(stickerModel, false);
+        mStickerText = stickerModel.getStickerText();
+        setTextSticker(isInitial);
     }
 
     @Override
@@ -139,33 +152,34 @@ public class EditStickerTextView extends EditStickerView {
         mContentPaint.setColor(Color.GREEN);
 
         mBorderPaint = new Paint(mPaint);
-        mBorderPaint.setColor(Color.parseColor("#B2ffffff"));
-        mBorderPaint.setShadowLayer(DisplayUtil.dip2px(getContext(), 2.0f), 0, 0, Color.parseColor("#33000000"));
+        mBorderPaint.setColor(Color.parseColor("#99ffffff"));
+        //mBorderPaint.setShadowLayer(DisplayUtil.dip2px(getContext(), 2.0f), 0, 0, Color.parseColor("#33000000"));
 
-        mControllerBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_sticker_control);
+        mControllerBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_sticker_resize);
         mControllerWidth = mControllerBitmap.getWidth();
         mControllerHeight = mControllerBitmap.getHeight();
 
-        mDeleteBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_sticker_delete);
+        mDeleteBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_sticker_delete);
         mDeleteWidth = mDeleteBitmap.getWidth();
         mDeleteHeight = mDeleteBitmap.getHeight();
 
         mScreenWidth = DisplayUtil.getDisplayWidthPixels(getContext());
         mScreenHeight = DisplayUtil.getDisplayheightPixels(getContext());
         mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
+        setBackgroundColor(getResources().getColor(R.color.sticker_mask_dark));
     }
 
 
-    public void setTextSticker(StickerModel stickerModel, boolean isInitial) {
+    private void setTextSticker(boolean isInitial) {
 
         setFocusable(true);
         mTextView = new TextView(getContext());
-
-        mTextView.setText(stickerModel.getStickerText());
+        mTextView.setText(mStickerText);
         mTextView.setTextSize(16);
         mTextView.setMaxWidth((int) (mScreenWidth * 0.8 + 0.5));
 
-        mTextView.setBackgroundDrawable(loadNinePatch(null, getContext()));
+        mTextView.setBackgroundDrawable(getResources()
+                .getDrawable(STICKER_TEXT_BG[mStickerTextBGIndex]));
         mTextView.setTextColor(Color.WHITE);
 
         final int widthSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
@@ -328,57 +342,6 @@ public class EditStickerTextView extends EditStickerView {
         return (float) Math.toDegrees(radians);
     }
 
-    private void resetTextView() {
-        setFocusable(true);
-
-        mMatrix = new Matrix();
-        mContentRect = new RectF();
-        mTextView = new TextView(getContext());
-
-        mTextView.setText("hello");
-        mTextView.setTextSize(14);
-        mTextView.setMaxWidth((int) (mScreenWidth * 0.8 + 0.5));
-
-        mTextView.setBackgroundDrawable(loadNinePatch(null, getContext()));
-        mTextView.setTextColor(Color.GREEN);
-
-        final int widthSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        final int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-
-        mTextView.measure(widthSpec, heightSpec);
-
-        int width = mTextView.getMeasuredWidth();
-        int height = mTextView.getMeasuredHeight();
-        int px = mTextView.getMeasuredWidth() + 2 * STICKER_GAP;
-        int py = mTextView.getMeasuredHeight() + 2 * STICKER_GAP;
-
-        mTextView.layout(0, 0, width, height);
-
-        mOriginContentRect = new RectF(-STICKER_GAP, -STICKER_GAP, px - STICKER_GAP, py - STICKER_GAP);
-
-        mPoints = new float[10];
-        mOriginPoints = new float[]{0, 0,
-                width, 0,
-                width, height,
-                0, height,
-                width / 2, height / 2};
-
-        mOuterPoints = new float[10];
-        mOriginOuterPoints = new float[]{-STICKER_GAP, -STICKER_GAP,
-                px - STICKER_GAP, -STICKER_GAP,
-                px - STICKER_GAP, py - STICKER_GAP,
-                -STICKER_GAP, py - STICKER_GAP,
-                width / 2, height / 2};
-
-        float transtLeft = ((float) mScreenWidth - width) / 2;
-        float transtTop = ((float) mScreenHeight - height) / 2;
-        //图片通过矩阵进行坐标平移
-        mMatrix.postTranslate(transtLeft, transtTop);
-
-        // mMatrix.postScale()
-
-        invalidate();
-    }
 
     private void doDeleteSticker() {
         setVisibility(View.GONE);
@@ -535,6 +498,12 @@ public class EditStickerTextView extends EditStickerView {
         //}
         return false;
 
+    }
+
+    @Override
+    public void onStickerTextBGChanged(int bgIndex) {
+        mInEdit = true;
+        mStickerTextBGIndex = bgIndex;
     }
 
     public interface OnEditStickerTextClickListener {

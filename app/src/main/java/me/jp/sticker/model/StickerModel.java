@@ -14,6 +14,8 @@ public class StickerModel implements Serializable{
 
     private String stickerText;
 
+    private int stickerTextBGIndex;
+
     private float degree;
     //宽度占屏幕的宽度比例
     private float scaleWidth;
@@ -88,6 +90,14 @@ public class StickerModel implements Serializable{
 
     public void setStickerType(int stickerType) {
         this.stickerType = stickerType;
+    }
+
+    public int getStickerTextBGIndex() {
+        return stickerTextBGIndex;
+    }
+
+    public void setStickerTextBGIndex(int stickerTextBGIndex) {
+        this.stickerTextBGIndex = stickerTextBGIndex;
     }
 
     @Override

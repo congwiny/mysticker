@@ -30,8 +30,8 @@ public class EditStickerIconView extends EditStickerView {
 
     private static final String TAG = EditStickerIconView.class.getSimpleName();
 
-    public static final float MAX_SCALE_SIZE = 3.2f;
-    public static final float MIN_SCALE_SIZE = 0.6f;
+    public static final float MAX_SCALE_SIZE = 2.0f;
+    public static final float MIN_SCALE_SIZE = 0.5f;
 
     private float[] mOriginPoints;
     private float[] mPoints;
@@ -79,11 +79,12 @@ public class EditStickerIconView extends EditStickerView {
     public void applySticker() {
         mInEdit = false;
         setFocusable(false);
+        setBackgroundColor(getResources().getColor(R.color.sticker_mask_transparent));
         invalidate();
     }
 
     @Override
-    public void editSticker(StickerModel stickerModel) {
+    public void editSticker(StickerModel stickerModel, boolean isInitial) {
         mInEdit = true;
         setFocusable(true);
         invalidate();
@@ -99,16 +100,18 @@ public class EditStickerIconView extends EditStickerView {
         mPaint.setColor(Color.WHITE);
 
         mBorderPaint = new Paint(mPaint);
-        mBorderPaint.setColor(Color.parseColor("#B2ffffff"));
-        mBorderPaint.setShadowLayer(DisplayUtil.dip2px(getContext(), 2.0f), 0, 0, Color.parseColor("#33000000"));
+        mBorderPaint.setColor(Color.parseColor("#99ffffff"));
+        //mBorderPaint.setShadowLayer(DisplayUtil.dip2px(getContext(), 2.0f), 0, 0, Color.parseColor("#33000000"));
 
-        mControllerBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_sticker_control);
+        mControllerBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_sticker_resize);
         mControllerWidth = mControllerBitmap.getWidth();
         mControllerHeight = mControllerBitmap.getHeight();
 
-        mDeleteBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_sticker_delete);
+        mDeleteBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_sticker_delete);
         mDeleteWidth = mDeleteBitmap.getWidth();
         mDeleteHeight = mDeleteBitmap.getHeight();
+
+        setBackgroundColor(getResources().getColor(R.color.sticker_mask_dark));
 
     }
 

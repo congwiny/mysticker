@@ -33,7 +33,7 @@ public class StickerEffectActivity extends AppCompatActivity {
         mStickerTextView = (EditStickerTextView) findViewById(R.id.sticker_textView);
         StickerModel model = new StickerModel();
         model.setStickerText("hello");
-        mStickerTextView.editSticker(model);
+        mStickerTextView.editSticker(model, true);
 
         mStartNextBtn = (Button) findViewById(R.id.startNext);
         mStartNextBtn.setOnClickListener(new View.OnClickListener() {

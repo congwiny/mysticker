@@ -3,16 +3,12 @@ package me.jp.sticker.widget.edit;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -29,7 +25,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.jp.sticker.R;
 import me.jp.sticker.adapter.StickerIconAdapter;
@@ -41,7 +36,9 @@ import me.jp.sticker.util.KeyBoardUtils;
 /**
  * Created by congwiny on 2016/7/11.
  */
-public class EditStickerContainer extends RelativeLayout implements View.OnClickListener, EditStickerView.OnStickerDeleteListener, EditStickerTextView.OnEditStickerTextClickListener {
+public class EditStickerContainer extends RelativeLayout implements View.OnClickListener,
+        EditStickerView.OnStickerDeleteListener,
+        EditStickerTextView.OnEditStickerTextClickListener {
 
     private static final String TAG = EditStickerContainer.class.getSimpleName();
     private ArrayList<EditStickerView> mStickerList = new ArrayList<>();
@@ -177,7 +174,7 @@ public class EditStickerContainer extends RelativeLayout implements View.OnClick
                 if (mInEdit) {
                     showQuitEditDialog();
                     return true;
-                }else{
+                } else {
                     //apply 之后
                     return false;
                 }
@@ -260,10 +257,10 @@ public class EditStickerContainer extends RelativeLayout implements View.OnClick
                 if (mStickerList.size() > 0 && !mInEdit) {
                     Toast.makeText(getContext(), "must one sticker", Toast.LENGTH_SHORT).show();
                 } else {
+                    initTextSticker(mStickerEditText.getText().toString());
                     mStickerInputView.setVisibility(VISIBLE);
                     mBlankClickView.setVisibility(VISIBLE);
                     mStickerDoneTv.setVisibility(VISIBLE);
-
                     mStickerToolbar.setVisibility(GONE);
                     mStickerRv.setVisibility(GONE);
                     KeyBoardUtils.openKeybord(mStickerEditText, getContext());
@@ -276,7 +273,7 @@ public class EditStickerContainer extends RelativeLayout implements View.OnClick
                 mStickerToolbar.setVisibility(VISIBLE);
                 mStickerInputView.setVisibility(GONE);
                 mBlankClickView.setVisibility(GONE);
-                initTextSticker(mStickerEditText.getText().toString());
+                editTextSticker(mStickerEditText.getText().toString());
                 break;
         }
     }
@@ -289,17 +286,23 @@ public class EditStickerContainer extends RelativeLayout implements View.OnClick
             EditStickerTextView editStickerTextView = new EditStickerTextView(getContext());
             editStickerTextView.setOnStickerDeleteListener(this);
             editStickerTextView.setOnEditStickerTextClickListener(this);
+            mStickerInputView.setOnStickerTextBGChangedListener(editStickerTextView);
             mStickerList.add(editStickerTextView);
 
             RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             mEditStickerRlyt.addView(editStickerTextView, rlp);
-            editStickerTextView.setTextSticker(stickerModel, true);
-
-        } else {
-            mStickerList.get(0).setVisibility(VISIBLE);
-            mStickerList.get(0).editSticker(stickerModel);
+            editStickerTextView.editSticker(stickerModel, true);
+            editStickerTextView.setVisibility(INVISIBLE);
         }
     }
+
+    private void editTextSticker(String text) {
+        StickerModel stickerModel = new StickerModel();
+        stickerModel.setStickerText(text);
+        mStickerList.get(0).setVisibility(VISIBLE);
+        mStickerList.get(0).editSticker(stickerModel, false);
+    }
+
 
     private void initIconSticker(Bitmap bitmap) {
         EditStickerIconView editStickerIconView = new EditStickerIconView(getContext());
@@ -322,6 +325,8 @@ public class EditStickerContainer extends RelativeLayout implements View.OnClick
             mStickerList.remove(stickerEditView);
         }
         mBlankClickView.setVisibility(GONE);
+        //重置
+        mStickerInputView.reset();
     }
 
     @Override
@@ -334,4 +339,5 @@ public class EditStickerContainer extends RelativeLayout implements View.OnClick
         editStickerTextView.setVisibility(INVISIBLE);
         KeyBoardUtils.openKeybord(mStickerEditText, getContext());
     }
+
 }

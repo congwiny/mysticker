@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="text_sticker_white">#ffffff</color>
+    <color name="text_sticker_black">#000000</color>
+    <color name="text_sticker_red">#ee5552</color>
+    <color name="text_sticker_yellow">#f8b342</color>
+    <color name="text_sticker_green">#39ab7d</color>
+    <color name="text_sticker_blue">#277fc3</color>
+    <color name="text_sticker_pink">#f466c9</color>
+
+    <color name="bg_text_sticker_black">#cc000000</color>
+    <color name="bg_text_sticker_red">#ccee5552</color>
+    <color name="bg_text_sticker_yellow">#ccf8b342</color>
+    <color name="bg_text_sticker_green">#cc39ab7d</color>
+    <color name="bg_text_sticker_blue">#cc277fc3</color>
+    <color name="bg_text_sticker_pink">#ccf466c9</color>
+    
+    <color name="sticker_mask_dark">#66000000</color>
+    <color name="sticker_mask_transparent">#00000000</color>
+</resources>

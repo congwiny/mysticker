@@ -30,7 +30,7 @@ public abstract class EditStickerView extends View {
 
     public abstract void applySticker();
 
-    public abstract void editSticker(StickerModel stickerModel);
+    public abstract void editSticker(StickerModel stickerModel, boolean isInitial);
 
     public abstract void setOnStickerDeleteListener(OnStickerDeleteListener listener);
 
