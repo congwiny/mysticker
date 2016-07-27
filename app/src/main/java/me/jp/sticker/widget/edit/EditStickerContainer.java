@@ -24,8 +24,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.OnClick;
 import me.jp.sticker.R;
 import me.jp.sticker.adapter.StickerIconAdapter;
 import me.jp.sticker.model.StickerModel;
@@ -42,28 +40,18 @@ public class EditStickerContainer extends RelativeLayout implements View.OnClick
 
     private static final String TAG = EditStickerContainer.class.getSimpleName();
     private ArrayList<EditStickerView> mStickerList = new ArrayList<>();
-    @BindView(R.id.tv_sticker_cancel)
     private TextView mStickerCancelTv;
-    @BindView(R.id.tv_sticker_done)
     private TextView mStickerDoneTv;
-    @BindView(R.id.iv_sticker_icon)
     private ImageView mStickerIconIv;
-    @BindView(R.id.iv_sticker_text)
     private ImageView mStickerTextIv;
-    @BindView(R.id.rv_sticker_list)
     private RecyclerView mStickerRv;
-    @BindView(R.id.layout_sticker_input)
     private StickerInputView mStickerInputView;
 
-    @BindView(R.id.ed_sticker_input)
     private EditText mStickerEditText;
 
-    @BindView(R.id.ll_sticker_toolbar)
     private LinearLayout mStickerToolbar;
 
-    @BindView(R.id.rl_edit_sticker)
     private RelativeLayout mEditStickerRlyt;
-    @BindView(R.id.view_blank_click)
     private View mBlankClickView;
 
     private boolean mInEdit;
@@ -114,22 +102,18 @@ public class EditStickerContainer extends RelativeLayout implements View.OnClick
     }
 
 
-    @OnClick(R.id.tv_sticker_cancel)
     public void cancelSticker(View view) {
         setVisibility(GONE);
     }
 
-    @OnClick(R.id.tv_sticker_done)
     public void applySticker(View view) {
 
     }
 
-    @OnClick(R.id.iv_sticker_icon)
     public void editIconSticker(View view) {
 
     }
 
-    @OnClick(R.id.iv_sticker_text)
     public void editTextSticker(View view) {
 
     }

@@ -11,7 +11,6 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.util.FloatMath;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -304,7 +303,7 @@ public class EditStickerIconView extends EditStickerView {
                     mMatrix.postRotate(rotation(event), mPoints[8], mPoints[9]);
                     float nowLenght = caculateLength(mPoints[0], mPoints[1]);
                     float touchLenght = caculateLength(event.getX(), event.getY());
-                    if (FloatMath.sqrt((nowLenght - touchLenght) * (nowLenght - touchLenght)) > 0.0f) {
+                    if (Math.sqrt((nowLenght - touchLenght) * (nowLenght - touchLenght)) > 0.0f) {
                         float scale = touchLenght / nowLenght;
                         float nowsc = mStickerScaleSize * scale;
                         if (nowsc >= MIN_SCALE_SIZE && nowsc <= MAX_SCALE_SIZE) {
@@ -326,7 +325,7 @@ public class EditStickerIconView extends EditStickerView {
                     mInController = false;
                     //Log.i("MATRIX_OK", "ma_jiaodu:" + a(cX, cY));
 
-                    if (FloatMath.sqrt(cX * cX + cY * cY) > 2.0f && canStickerMove(cX, cY)) {
+                    if (Math.sqrt(cX * cX + cY * cY) > 2.0f && canStickerMove(cX, cY)) {
                         //Log.i("MATRIX_OK", "is true to move");
                         mMatrix.postTranslate(cX, cY);
                         postInvalidate();
@@ -377,7 +376,7 @@ public class EditStickerIconView extends EditStickerView {
     private float caculateLength(float x, float y) {
         float ex = x - mPoints[8];
         float ey = y - mPoints[9];
-        return FloatMath.sqrt(ex * ex + ey * ey);
+        return (float) Math.sqrt(ex * ex + ey * ey);
     }
 
 

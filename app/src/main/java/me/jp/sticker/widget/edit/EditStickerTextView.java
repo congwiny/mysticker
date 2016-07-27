@@ -16,7 +16,6 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.FloatMath;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -281,7 +280,7 @@ public class EditStickerTextView extends EditStickerView implements StickerInput
                     float nowLenght = caculateLength(mOuterPoints[0], mOuterPoints[1], mOuterPoints[8], mOuterPoints[9]);
                     float touchLenght = caculateLength(event.getX(), event.getY(), mOuterPoints[8], mOuterPoints[9]);
 
-                    if (FloatMath.sqrt((nowLenght - touchLenght) * (nowLenght - touchLenght)) > 0.0f) {
+                    if (Math.sqrt((nowLenght - touchLenght) * (nowLenght - touchLenght)) > 0.0f) {
 
                         float scale = touchLenght / nowLenght;
                         float nowsc = mStickerScaleSize * scale;
@@ -303,7 +302,7 @@ public class EditStickerTextView extends EditStickerView implements StickerInput
                     float cY = y - mLastPointY;
                     mInController = false;
 
-                    if (FloatMath.sqrt(cX * cX + cY * cY) > 2.0f && canStickerMove(cX, cY)) {
+                    if (Math.sqrt(cX * cX + cY * cY) > 2.0f && canStickerMove(cX, cY)) {
                         mMatrix.postTranslate(cX, cY);
                         postInvalidate();
                         mLastPointX = x;
@@ -366,7 +365,7 @@ public class EditStickerTextView extends EditStickerView implements StickerInput
     private float caculateLength(float x1, float y1, float x2, float y2) {
         float ex = x1 - x2;
         float ey = y1 - y2;
-        return FloatMath.sqrt(ex * ex + ey * ey);
+        return (float) Math.sqrt(ex * ex + ey * ey);
     }
 
     private float rotation(MotionEvent event) {

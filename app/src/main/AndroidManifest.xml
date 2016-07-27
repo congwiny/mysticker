@@ -28,6 +28,8 @@
         <activity android:name=".StickerTextActivity">
         </activity>
         <activity android:name=".StickerActivity">
+        </activity>
+        <activity android:name=".StickerAnimActivity">
 
         </activity>
     </application>

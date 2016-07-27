@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.FrameLayout;
 
-import butterknife.ButterKnife;
 import me.jp.sticker.widget.edit.EditStickerContainer;
 
 public class StickerActivity extends AppCompatActivity {
@@ -17,7 +16,6 @@ public class StickerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sticker);
-        ButterKnife.bind(this);
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.sticker_container);
 
         mStickerContainer = new EditStickerContainer(this);
