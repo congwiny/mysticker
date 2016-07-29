@@ -13,7 +13,7 @@ android {
     }
 
 
-    signingConfigs {
+  /*  signingConfigs {
         release {
             Properties props = new Properties()
             props.load(new FileInputStream(file(project.property("key_store.properties"))))
@@ -22,7 +22,7 @@ android {
             keyAlias props['RELEASE_KEY_ALIAS']
             keyPassword props['RELEASE_KEY_PASSWORD']
         }
-    }
+    }*/
 
     buildTypes {
         release {
