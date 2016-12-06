@@ -12,39 +12,6 @@ android {
         versionName "0.18"
     }
 
-
-    signingConfigs {
-        release {
-            Properties props = new Properties()
-            props.load(new FileInputStream(file(project.property("key_store.properties"))))
-            storeFile file(props['RELEASE_STORE_JKS'])
-            storePassword props['RELEASE_STORE_PASSWORD']
-            keyAlias props['RELEASE_KEY_ALIAS']
-            keyPassword props['RELEASE_KEY_PASSWORD']
-        }
-    }
-
-    buildTypes {
-        release {
-            zipAlignEnabled true
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-
-            applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    def outputFile = output.outputFile
-                    if (outputFile != null && outputFile.name == "app-release.apk") {
-                        def fileName = "kittylive_test_${defaultConfig.versionCode}(${defaultConfig.versionName})_${releaseTime()}.apk"
-                        output.outputFile = new File(outputFile.parent, fileName)
-                    }
-
-                }
-            }
-        }
-    }
-
 }
 
 dependencies {
