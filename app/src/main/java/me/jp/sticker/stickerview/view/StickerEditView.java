@@ -2,18 +2,18 @@ package me.jp.sticker.stickerview.view;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.Editable;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.MotionEvent;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import me.jp.sticker.R;
-import me.jp.sticker.stickerview.listener.MoveOnTouchListener;
-import me.jp.sticker.stickerview.listener.ResizeOnTouchListener;
+import me.jp.sticker.stickerview.listener.OnTouchMoveListener;
+import me.jp.sticker.stickerview.listener.OnTouchResizeListener;
 
 /**
  * Created by congwiny on 2016/12/5.
@@ -28,7 +28,7 @@ public class StickerEditView extends RelativeLayout implements View.OnClickListe
 
     private ImageView mStickerImageView;
 
-    private TextView mStickerTextView;
+    private FitTextView mStickerTextView;
 
     public StickerEditView(Context context) {
         this(context, null);
@@ -61,7 +61,7 @@ public class StickerEditView extends RelativeLayout implements View.OnClickListe
         resizeLayoutParams.topMargin = -mResizeImageView.getDrawable().getIntrinsicHeight() / 2;
         resizeLayoutParams.leftMargin = -mResizeImageView.getDrawable().getIntrinsicWidth() / 2;
         mResizeImageView.setLayoutParams(resizeLayoutParams);
-        mResizeImageView.setOnTouchListener(new ResizeOnTouchListener(this));
+        mResizeImageView.setOnTouchListener(new OnTouchResizeListener(this));
 
         mStickerImageView = new ImageView(getContext());
         mStickerImageView.setId(R.id.sticker_edit_image);
@@ -74,7 +74,7 @@ public class StickerEditView extends RelativeLayout implements View.OnClickListe
         stickerImageParams.addRule(RIGHT_OF, R.id.sticker_edit_delete);
 
         mStickerImageView.setLayoutParams(stickerImageParams);
-        mStickerImageView.setOnTouchListener(new MoveOnTouchListener(this));
+        mStickerImageView.setOnTouchListener(new OnTouchMoveListener(this));
     }
 
 
@@ -84,11 +84,17 @@ public class StickerEditView extends RelativeLayout implements View.OnClickListe
         addView(mDeleteImageView);
         addView(mResizeImageView);
 
-        mStickerTextView = new TextView(getContext());
-        mStickerTextView.setText("你好");
-        mStickerTextView.setTextColor(Color.GREEN);
+        mStickerTextView = new FitTextView(getContext());
+        mStickerTextView.setTextSize(14);
+        mStickerTextView.setMinTextSize(1);
+        mStickerTextView.setMaxTextSize(60);
+        mStickerTextView.setTextColor(Color.CYAN);
+        mStickerTextView.setBackgroundResource(R.drawable.shape_textview_border);
 
-        LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, getResources().getDisplayMetrics());
+        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
+
+        LayoutParams lp = new LayoutParams(width,height);
         lp.addRule(CENTER_IN_PARENT);
         addView(mStickerTextView,lp);
     }
@@ -107,6 +113,10 @@ public class StickerEditView extends RelativeLayout implements View.OnClickListe
 
     public View getStickerTextView(){
         return mStickerTextView;
+    }
+
+    public void setStickerText(Editable text){
+        mStickerTextView.setText(text);
     }
     @Override
     public void onClick(View v) {

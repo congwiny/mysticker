@@ -13,10 +13,10 @@ import me.jp.sticker.stickerview.view.StickerEditView;
  * Created by congwiny on 2016/12/5.
  */
 
-public class ResizeOnTouchListener implements View.OnTouchListener {
+public class OnTouchResizeListener implements View.OnTouchListener {
     //需要被放大缩小的view，后面可以加个集合什么的，现在先对图片处理
     private StickerEditView mStickerView;
-    private final String TAG = ResizeOnTouchListener.class.getSimpleName();
+    private final String TAG = OnTouchResizeListener.class.getSimpleName();
 
     private PointF mLastTouchRawPoint;
 
@@ -30,9 +30,13 @@ public class ResizeOnTouchListener implements View.OnTouchListener {
     private int mLastStickerContentW;
     private int mLastStickerContentH;
 
+    private int mLastStickerTextW;
+    private int mLastStickerTextH;
+
 
     private RelativeLayout.LayoutParams mStickerViewLp;
     private RelativeLayout.LayoutParams mStickerImgContentLp;
+    private RelativeLayout.LayoutParams mStickerTextLp;
     private int mLastStickerImgLeft;
     private int mLastStickerImgTop;
 
@@ -41,7 +45,7 @@ public class ResizeOnTouchListener implements View.OnTouchListener {
 
     private float mOriginLength;
 
-    public ResizeOnTouchListener(StickerEditView stickerEditView) {
+    public OnTouchResizeListener(StickerEditView stickerEditView) {
         this.mStickerView = stickerEditView;
         mStickerCenter = new PointF();
         mLastTouchRawPoint = new PointF();
@@ -55,6 +59,7 @@ public class ResizeOnTouchListener implements View.OnTouchListener {
 
                 mStickerViewLp = (RelativeLayout.LayoutParams) mStickerView.getLayoutParams();
                 mStickerImgContentLp = (RelativeLayout.LayoutParams) mStickerView.getImageContentView().getLayoutParams();
+                mStickerTextLp = (RelativeLayout.LayoutParams) mStickerView.getStickerTextView().getLayoutParams();
 
                 mStickerCenter.x = mStickerViewLp.leftMargin + mStickerView.getWidth() / 2;
                 mStickerCenter.y = mStickerViewLp.topMargin + mStickerView.getHeight() / 2;
@@ -66,6 +71,10 @@ public class ResizeOnTouchListener implements View.OnTouchListener {
                 mStickerLastAngle = mStickerView.getRotation();
                 mLastStickerContentW = mStickerView.getImageContentView().getWidth();
                 mLastStickerContentH = mStickerView.getImageContentView().getHeight();
+
+                mLastStickerTextW = mStickerView.getStickerTextView().getWidth();
+                mLastStickerTextH = mStickerView.getStickerTextView().getHeight();
+
                 mLastStickerImgLeft = mStickerViewLp.leftMargin;
                 mLastStickerImgTop = mStickerViewLp.topMargin;
 
@@ -104,6 +113,14 @@ public class ResizeOnTouchListener implements View.OnTouchListener {
                     mStickerImgContentLp.height = newHeight;
                     //设置sticker内容缩放
                     mStickerView.getImageContentView().setLayoutParams(mStickerImgContentLp);
+
+                    int newTextWidth = (int) (mLastStickerTextW*scale);
+                    int newTextHeight = (int) (mLastStickerTextH*scale);
+                    mStickerTextLp.width = newTextWidth;
+                    mStickerTextLp.height = newTextHeight;
+                    mStickerView.getStickerTextView().setLayoutParams(mStickerTextLp);
+
+
                     //设置外部边框
                     mStickerViewLp = (RelativeLayout.LayoutParams) mStickerView.getLayoutParams();
                     mStickerViewLp.leftMargin = mLastStickerViewLeft

@@ -25,6 +25,8 @@ dependencies {
     //Fresco
     compile 'com.facebook.fresco:fresco:0.10.0'
     compile 'com.facebook.fresco:animated-webp:0.10.0'
+
+    compile 'me.grantland:autofittextview:0.2.+'
 }
 
 def releaseTime() {

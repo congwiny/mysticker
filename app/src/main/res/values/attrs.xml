@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AutoFitTextView">
+        <attr name="MinTextSize" format="dimension" />
+        <attr name="MaxTextSize" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="AutoSizeTextView">
+        <attr name="minTxtSize" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="FitTextView">
+        <attr name="ftMinTextSize" format="dimension"/>
+        <attr name="ftMaxTextSize" format="dimension"/>
+    </declare-styleable>
+</resources>

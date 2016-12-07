@@ -9,7 +9,7 @@ import android.widget.RelativeLayout;
  * Created by congwiny on 2016/12/5.
  */
 
-public class MoveOnTouchListener implements View.OnTouchListener {
+public class OnTouchMoveListener implements View.OnTouchListener {
     //位移view触摸的位置
     private Point mTouchViewPoint;
 
@@ -25,7 +25,7 @@ public class MoveOnTouchListener implements View.OnTouchListener {
     //触摸移动的view
     private View mMoveView;
 
-    public MoveOnTouchListener(View moveView) {
+    public OnTouchMoveListener(View moveView) {
         this.mMoveView = moveView;
     }
 
