@@ -79,6 +79,7 @@ public class StickerEditView extends RelativeLayout implements View.OnClickListe
 
 
     public void editSticker() {
+
         mStickerImageView.setImageDrawable(getResources().getDrawable(R.drawable.artboard_1));
         addView(mStickerImageView);
         addView(mDeleteImageView);
@@ -91,39 +92,41 @@ public class StickerEditView extends RelativeLayout implements View.OnClickListe
         mStickerTextView.setTextColor(Color.CYAN);
         mStickerTextView.setBackgroundResource(R.drawable.shape_textview_border);
 
-        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, getResources().getDisplayMetrics());
-        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
-
-        LayoutParams lp = new LayoutParams(width,height);
+        int width = getDimension(70);
+        int height = getDimension(70);
+        LayoutParams lp = new LayoutParams(width, height);
         lp.addRule(CENTER_IN_PARENT);
-        addView(mStickerTextView,lp);
+        lp.rightMargin = getDimension(100);
+        lp.bottomMargin = getDimension(100);
+        addView(mStickerTextView, lp);
     }
 
-    public View getImageContentView(){
+    public View getImageContentView() {
         return mStickerImageView;
     }
 
-    public View getDeleteView(){
+    public View getDeleteView() {
         return mDeleteImageView;
     }
 
-    public View getResizeView(){
+    public View getResizeView() {
         return mResizeImageView;
     }
 
-    public View getStickerTextView(){
+    public View getStickerTextView() {
         return mStickerTextView;
     }
 
-    public void setStickerText(Editable text){
+    public void setStickerText(Editable text) {
         mStickerTextView.setText(text);
     }
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.sticker_edit_delete:
-                Log.e(TAG,"delete button onclick");
-              //  removeAllViews();
+                Log.e(TAG, "delete button onclick");
+                //  removeAllViews();
                 break;
             case R.id.sticker_edit_image:
                 break;
@@ -135,4 +138,27 @@ public class StickerEditView extends RelativeLayout implements View.OnClickListe
              */
         }
     }
+
+    public void applySticker() {
+        mDeleteImageView.setVisibility(INVISIBLE);
+        mResizeImageView.setVisibility(INVISIBLE);
+        mStickerImageView.setBackgroundResource(0);
+        mStickerImageView.setEnabled(false);
+        mStickerTextView.setBackgroundResource(0);
+
+    }
+
+    public void reeditSticker() {
+        mDeleteImageView.setVisibility(VISIBLE);
+        mResizeImageView.setVisibility(VISIBLE);
+        mStickerImageView.setEnabled(true);
+        mStickerImageView.setBackgroundResource(R.drawable.shape_imageview_border);
+        mStickerTextView.setBackgroundResource(R.drawable.shape_textview_border);
+    }
+
+    private int getDimension(int size) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, size, getResources().getDisplayMetrics());
+    }
+
+    //TODO 自定义view onMesure ,onLayout放置view的位置
 }

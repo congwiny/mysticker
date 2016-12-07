@@ -16,22 +16,25 @@
             android:name=".MainActivity"
             android:label="@string/app_name">
 
-        </activity>
-        <activity
-            android:name=".StickerEffectActivity"
-            android:label="@string/title_activity_sticker_effect"
-            android:theme="@style/AppTheme"></activity>
-        <activity android:name=".StickerTextActivity"></activity>
-        <activity android:name=".StickerActivity"></activity>
-        <activity android:name=".StickerAnimActivity"></activity>
-
-        <activity android:name=".stickerview.StickerViewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".StickerEffectActivity"
+            android:label="@string/title_activity_sticker_effect"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".StickerTextActivity">
+
+        </activity>
+        <activity android:name=".StickerActivity" />
+        <activity android:name=".StickerAnimActivity" />
+        <activity android:name=".stickerview.StickerEditActivity">
+
+        </activity>
+        <activity android:name=".stickerview.StickerShowActivity"></activity>
     </application>
 
 </manifest>

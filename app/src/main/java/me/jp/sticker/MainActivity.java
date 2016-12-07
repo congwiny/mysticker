@@ -40,6 +40,7 @@ import java.util.List;
 
 import me.jp.sticker.adapter.GalleryAdapter;
 import me.jp.sticker.model.StickerModel;
+import me.jp.sticker.widget.edit.EditStickerIconTextView;
 import me.jp.sticker.widget.edit.EditStickerIconView;
 import me.jp.sticker.widget.edit.EditStickerView;
 
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     int mStatusBarHeight;
     int mToolBarHeight;
 
-    List<EditStickerIconView> mStickers = new ArrayList<>();
+    List<EditStickerIconTextView> mStickers = new ArrayList<>();
     int[] mResIds = new int[]{R.mipmap.ic_sticker_01, R.mipmap.ic_sticker_02, R.mipmap.ic_sticker_03, R.mipmap.ic_sticker_04, R.mipmap.ic_sticker_05, R.mipmap.ic_sticker_06, R.mipmap.ic_sticker_07, R.mipmap.ic_sticker_08};
 
 
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void addStickerItem(int resId) {
         resetStickersFocus();
-        EditStickerIconView stickerEditView = new EditStickerIconView(this);
+        EditStickerIconTextView stickerEditView = new EditStickerIconTextView(this);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void resetStickersFocus() {
-        for (EditStickerIconView stickerEditView : mStickers) {
+        for (EditStickerIconTextView stickerEditView : mStickers) {
             stickerEditView.setFocusable(false);
         }
     }
@@ -257,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
         canvas.drawBitmap(bmBg, 0, 0, null);
 
         //draw stickers on canvas
-        for (EditStickerIconView stickerEditView : mStickers) {
+        for (EditStickerIconTextView stickerEditView : mStickers) {
             Bitmap bmSticker = stickerEditView.getBitmap();
             canvas.drawBitmap(bmSticker, 0, 0, null);
         }
@@ -276,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
             int x = (int) ev.getX();
             //calculate action point Y apart from Container layout origin
             int y = (int) ev.getY() - mStatusBarHeight - mToolBarHeight;
-            for (EditStickerIconView stickerEditView : mStickers) {
+            for (EditStickerIconTextView stickerEditView : mStickers) {
                 // dispatch focus to the sticker based on Coordinate
                 boolean isContains = stickerEditView.getContentRect().contains(x, y);
                 if (isContains) {

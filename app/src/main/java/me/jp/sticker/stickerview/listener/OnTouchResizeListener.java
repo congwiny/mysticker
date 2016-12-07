@@ -43,6 +43,9 @@ public class OnTouchResizeListener implements View.OnTouchListener {
     private int mLastStickerViewLeft;
     private int mLastStickerViewTop;
 
+    private int mLastStickerTextLeft;
+    private int mLastStickerTextTop;
+
     private float mOriginLength;
 
     public OnTouchResizeListener(StickerEditView stickerEditView) {
@@ -74,6 +77,8 @@ public class OnTouchResizeListener implements View.OnTouchListener {
 
                 mLastStickerTextW = mStickerView.getStickerTextView().getWidth();
                 mLastStickerTextH = mStickerView.getStickerTextView().getHeight();
+                mLastStickerTextLeft = mStickerTextLp.leftMargin;
+                mLastStickerTextTop = mStickerTextLp.topMargin;
 
                 mLastStickerImgLeft = mStickerViewLp.leftMargin;
                 mLastStickerImgTop = mStickerViewLp.topMargin;
@@ -114,12 +119,15 @@ public class OnTouchResizeListener implements View.OnTouchListener {
                     //设置sticker内容缩放
                     mStickerView.getImageContentView().setLayoutParams(mStickerImgContentLp);
 
-                    int newTextWidth = (int) (mLastStickerTextW*scale);
-                    int newTextHeight = (int) (mLastStickerTextH*scale);
+                    int newTextWidth = (int) (mLastStickerTextW * scale);
+                    int newTextHeight = (int) (mLastStickerTextH * scale);
                     mStickerTextLp.width = newTextWidth;
                     mStickerTextLp.height = newTextHeight;
+//                    mStickerTextLp.leftMargin = mLastStickerTextLeft
+//                            + ((newTextWidth - mLastStickerTextW) / 2);
+//                    mStickerTextLp.topMargin = mLastStickerTextTop
+//                            + ((newTextHeight - mLastStickerTextH) / 2);
                     mStickerView.getStickerTextView().setLayoutParams(mStickerTextLp);
-
 
                     //设置外部边框
                     mStickerViewLp = (RelativeLayout.LayoutParams) mStickerView.getLayoutParams();

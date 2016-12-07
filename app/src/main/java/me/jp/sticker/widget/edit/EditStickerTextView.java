@@ -77,6 +77,7 @@ public class EditStickerTextView extends EditStickerView implements StickerInput
     private Paint mContentPaint;
 
     private int[] STICKER_TEXT_BG = new int[]{
+            R.drawable.shape_textview_border,
             R.drawable.txt_bg_black,
             R.drawable.txt_bg_red,
             R.drawable.txt_bg_yellow,

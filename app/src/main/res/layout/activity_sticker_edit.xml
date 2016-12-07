@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_sticker_view"
+    android:layout_width="640dp"
+    android:layout_height="640dp"
+    tools:context="me.jp.sticker.stickerview.StickerEditActivity">
+    <me.jp.sticker.stickerview.view.StickerEditView
+        android:id="@+id/sticker_edit_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/edit_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textSize="14sp"/>
+
+    <Button
+        android:id="@+id/btn_reedit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/edit_input"
+        android:text="Reedit"/>
+
+    <Button
+        android:id="@+id/btn_apply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/btn_reedit"
+        android:layout_above="@id/edit_input"
+        android:text="apply"/>
+    <Button
+        android:id="@+id/btn_gonext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/edit_input"
+        android:layout_toRightOf="@id/btn_apply"
+        android:layout_marginLeft="10dp"
+        android:text="go next"/>
+</RelativeLayout>
